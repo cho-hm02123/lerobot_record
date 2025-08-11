@@ -25,7 +25,7 @@ There are two ways to record bi-manual datasets:
     "left_front": {"type": "opencv", "index_or_path": 6, "width": 640, "height": 480, "fps": 30},
     "right_front": {"type": "opencv", "index_or_path": 8, "width": 640, "height": 480, "fps": 30},
     "top": {"type": "opencv", "index_or_path": 2, "width": 640, "height": 480, "fps": 30}
-  }'   --teleop.type=bi_so100_leader   --teleop.left_arm_port=/dev/ttyTL   --teleop.right_arm_port=/dev/ttyTR   --teleop.id=leader_robot   --display_data=true   --dataset.repo_id=local/record-test   --dataset.push_to_hub=false   --dataset.root=./my_local_dataset2   --dataset.num_episodes=5   --dataset.single_task="Grab the marker_from_the_drawer"
+      }'   --teleop.type=bi_so100_leader   --teleop.left_arm_port=/dev/ttyTL   --teleop.right_arm_port=/dev/ttyTR   --teleop.id=leader_robot   --display_data=true   --dataset.repo_id=local/record-test                     dataset.push_to_hub=false   --dataset.root=./my_local_dataset2   --dataset.num_episodes=5   --dataset.single_task="Grab the marker_from_the_drawer"
   ```
 
 ---
