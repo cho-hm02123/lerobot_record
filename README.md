@@ -28,6 +28,7 @@ There are two ways to record bi-manual datasets:
       }'   --teleop.type=bi_so100_leader   --teleop.left_arm_port=/dev/ttyTL   --teleop.right_arm_port=/dev/ttyTR   --teleop.id=leader_robot   --display_data=true   --dataset.repo_id=local/record-test                     dataset.push_to_hub=false   --dataset.root=./my_local_dataset2   --dataset.num_episodes=5   --dataset.single_task="Grab the marker_from_the_drawer"
   ```
 
+
 ---
 
 **Caution:** Please ensure you set the correct port for your specific robot arm and camera devices.
