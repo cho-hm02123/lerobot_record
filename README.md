@@ -6,9 +6,9 @@ This guide explains how to record datasets using the LeRobot framework.
 
 To record a single arm dataset, run the following command:
 
-    ```
-    python test_record.py
-    ```
+```
+python test_record.py
+```
 
 ### Recording Bi-manual Datasets
 
