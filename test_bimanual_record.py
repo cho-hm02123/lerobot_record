@@ -3,8 +3,8 @@ from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.utils import hw_to_dataset_features
 
 # Bimanual Follower Robot & Teleoperator Robot Config and Class import
-from lerobot.teleoperators.bi_so100_leader import BiSO100LeaderConfig, BiSO100LeaderConfig
-from lerobot.teleoperators.bi_so100_follower import BiSO100FollowerConfig, BiSO100FollowerConfig
+from lerobot.teleoperators.bi_so100_leader import BiSO100Leader, BiSO100LeaderConfig
+from lerobot.robots.bi_so100_follower import BiSO100Follower, BiSO100FollowerConfig
 
 from lerobot.utils.control_utils import init_keyboard_listener
 from lerobot.utils.utils import log_say
@@ -48,8 +48,8 @@ teleop_config = BiSO100LeaderConfig(
 )
 
 # Initialize the robot and teleoperator
-robot = BiSO100FollowerConfig(robot_config)
-teleop = BiSO100LeaderConfig(teleop_config)
+robot = BiSO100Follower(robot_config)
+teleop = BiSO100Leader(teleop_config)
 
 # Configure the dataset features
 action_features = hw_to_dataset_features(robot.action_features, "action")
