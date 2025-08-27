@@ -47,4 +47,10 @@ There are two ways to record bi-manual datasets:
 ---
 
 **Caution:** Please ensure you set the correct port for your specific robot arm and camera devices.
+
+
+print(f"Loaded image keys: {images.keys()}")
+for key, img in images.items():
+    print(f"Image for {key} has shape: {img.shape}")
+
   
