@@ -30,6 +30,7 @@ camera_config = {
     "left_front": OpenCVCameraConfig(index_or_path=6, width=640, height=480, fps=30),
     "right_front": OpenCVCameraConfig(index_or_path=8, width=640, height=480, fps=30),
     "top": OpenCVCameraConfig(index_or_path=2, width=640, height=480, fps=30),
+    "depth": OpenCVCameraConfig(index_or_path=4, width=640, height=480, fps=30),
 }
 
 # Setup Follower Robot using BiSO100FollowerConfig
