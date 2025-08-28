@@ -31,7 +31,7 @@ There are two ways to record bi-manual datasets:
             "left_front": {"type": "opencv", "index_or_path": 6, "width": 640, "height": 480, "fps": 30},
             "right_front": {"type": "opencv", "index_or_path": 8, "width": 640, "height": 480, "fps": 30},
             "top": {"type": "opencv", "index_or_path": 2, "width": 640, "height": 480, "fps": 30},
-            "depth": {"type": "opencv", "index_or_path": 4, "width": 640, "height": 480, "fps": 30}
+            "depth": {"type": "opencv", "index_or_path": 4, "width": 640, "height": 480, "fps": 30},
         }' \
         --teleop.type=bi_so100_leader \
         --teleop.left_arm_port=/dev/ttyTL \
