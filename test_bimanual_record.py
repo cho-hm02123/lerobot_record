@@ -103,6 +103,7 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
             events=events,
             fps=FPS,
             teleop=teleop,
+            dataset=dataset,
             control_time_s=RESET_TIME_SEC,
             single_task=TASK_DESCRIPTION,
             display_data=True,
