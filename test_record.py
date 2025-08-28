@@ -19,7 +19,8 @@ TASK_DESCRIPTION = "New Classify Objects into the Pocket"
 # Create the robot and teleoperator configurations
 camera_config = {
     "grip": OpenCVCameraConfig(index_or_path=0, width=640, height=480, fps=30),
-    "top": OpenCVCameraConfig(index_or_path=6, width=640, height=480, fps=30)
+    "top": OpenCVCameraConfig(index_or_path=6, width=640, height=480, fps=30),
+    "depth": OpenCVCameraConfig(index_or_path=4, width=640, height=480, fps=30),
 }
 
 robot_config = SO101FollowerConfig(
