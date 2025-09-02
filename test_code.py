@@ -155,7 +155,7 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
     episode_idx += 1
 
 # Clean up
-log_say("Stop recording")
+print("Stop recording")
 robot.disconnect()
 teleop.disconnect()
 dataset.push_to_hub()
