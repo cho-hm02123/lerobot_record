@@ -57,8 +57,9 @@ if os.path.exists(dataset_path):
     print("Found existing dataset. Resuming recording.")
     dataset = LeRobotDataset(
         repo_id=REPO_ID,
-        image_writer_threads=4,
+        # image_writer_threads=4,
     )
+    dataset.start_image_writer(num_threads=4)
 else:
     print("Creating a new dataset.")
     dataset = LeRobotDataset.create(
