@@ -3,6 +3,7 @@ from pathlib import Path
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.utils import hw_to_dataset_features
+from lerobot.constants import HF_LEROBOT_HOME
 
 from lerobot.teleoperators.so101_leader import SO101LeaderConfig, SO101Leader
 from lerobot.robots.so101_follower import SO101FollowerConfig, SO101Follower
@@ -27,11 +28,13 @@ camera_config = {
 }
 
 robot_config = SO101FollowerConfig(
-    port="/dev/ttyACM0", id="follwer_robot_arm", cameras=camera_config
+    port="/dev/ttyFR",
+    id="follwer_robot_arm",
+    cameras=camera_config
 )
 
 teleop_config = SO101LeaderConfig(
-    port="/dev/ttyACM1",
+    port="/dev/ttyTR",
     id="leader_robot_arm",
 )
 
@@ -48,7 +51,7 @@ dataset_features = {**action_features, **obs_features}
 # **Modified part:** Check for existing dataset and either create or resume
 # -------------------------------------------------------------
 # Set local dataset path (following lerobot's default path)
-dataset_path = Path(f"./data/{REPO_ID}")
+dataset_path = Path(HF_LEROBOT_HOME) / REPO_ID
 
 if os.path.exists(dataset_path):
     print("Found existing dataset. Resuming recording.")
