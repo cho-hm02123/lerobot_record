@@ -79,7 +79,7 @@ teleop.connect()
 
 episode_idx = 0
 while episode_idx < NUM_EPISODES and not events["stop_recording"]:
-    log_say(f"Recording episode {episode_idx + 1} of {NUM_EPISODES}")
+    print(f"Recording episode {episode_idx + 1} of {NUM_EPISODES}")
 
     record_loop(
         robot=robot,
@@ -97,7 +97,7 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
 
     # Reset the environment if not stopping or re-recording
     if not events["stop_recording"] and (episode_idx < NUM_EPISODES - 1 or events["rerecord_episode"]):
-        log_say("Reset the environment")
+        print("Reset the environment")
         record_loop(
             robot=robot,
             events=events,
@@ -110,7 +110,7 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
         )
 
     if events["rerecord_episode"]:
-        log_say("Re-recording episode")
+        print("Re-recording episode")
         events["rerecord_episode"] = False
         events["exit_early"] = False
         dataset.clear_episode_buffer()
