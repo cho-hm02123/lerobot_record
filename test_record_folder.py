@@ -102,15 +102,6 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
     print('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
     print('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
 
-    user_choice = input("Save this episode? (y/n): ").lower()
-    if user_choice == 'y':
-        print("Saving episode...")
-        dataset.save_episode()
-        episode_idx += 1
-    else:
-        print("Discarding episode...")
-        dataset.clear_episode_buffer()
-
     # Reset the environment if not stopping or re-recording
     if not events["stop_recording"] and (episode_idx < NUM_EPISODES - 1 or events["rerecord_episode"]):
         print("Reset the environment")
@@ -124,6 +115,18 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
             single_task=TASK_DESCRIPTION,
             display_data=True,
         )
+    
+    user_choice = input("Save this episode? (y/n): ").lower()
+    if user_choice == 'y':
+        print("Saving episode...")
+        dataset.save_episode()
+        episode_idx += 1
+    else:
+        print("Discarding episode...")
+        dataset.stop_image_writer()
+        dataset.clear_episode_buffer()
+        dataset.start_image_writer(num_threads=4)
+        continue
 
     if events["rerecord_episode"]:
         print("Re-recording episode")
@@ -131,8 +134,6 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
         events["exit_early"] = False
         dataset.clear_episode_buffer()
         continue
-
-    
 
 # Clean up
 print("Stop recording")
