@@ -3,7 +3,7 @@ from pathlib import Path
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.utils import hw_to_dataset_features
-from lerobot.constants import HF_LEROBOT_HOME
+# from lerobot.constants import HF_LEROBOT_HOME
 
 from lerobot.teleoperators.so101_leader import SO101LeaderConfig, SO101Leader
 from lerobot.robots.so101_follower import SO101FollowerConfig, SO101Follower
@@ -15,16 +15,17 @@ from lerobot.record import record_loop
 
 NUM_EPISODES = 1
 FPS = 60
-EPISODE_TIME_SEC = 20
+EPISODE_TIME_SEC = 10
 RESET_TIME_SEC = 10
-TASK_DESCRIPTION = "New Classify Objects into the Pocket"
-REPO_ID = "nobana/test1"
+TASK_DESCRIPTION = "Pick up the red marker and put it in the box"
+REPO_ID = "nobana/zzinmak"
+local_dataset_path = os.path.join(os.path.expanduser("~/lerobotbi/lerobot/src/lerobot"), REPO_ID)
 
 # Create the robot and teleoperator configurations
 camera_config = {
-    "grip": OpenCVCameraConfig(index_or_path=0, width=640, height=480, fps=30),
-    "top": OpenCVCameraConfig(index_or_path=6, width=640, height=480, fps=30),
-    "depth": OpenCVCameraConfig(index_or_path=4, width=640, height=480, fps=30),
+    "grip": OpenCVCameraConfig(index_or_path=2, width=640, height=480, fps=30),
+    "top": OpenCVCameraConfig(index_or_path=8, width=640, height=480, fps=30),
+    "depth": OpenCVCameraConfig(index_or_path=6, width=640, height=480, fps=30),
 }
 
 robot_config = SO101FollowerConfig(
@@ -51,19 +52,21 @@ dataset_features = {**action_features, **obs_features}
 # **Modified part:** Check for existing dataset and either create or resume
 # -------------------------------------------------------------
 # Set local dataset path (following lerobot's default path)
-dataset_path = Path(HF_LEROBOT_HOME) / REPO_ID
+# dataset_path = Path(HF_LEROBOT_HOME) / REPO_ID
 
-if os.path.exists(dataset_path):
+if os.path.exists(local_dataset_path):
     print("Found existing dataset. Resuming recording.")
     dataset = LeRobotDataset(
         repo_id=REPO_ID,
-        # image_writer_threads=4,
+        root=local_dataset_path,
+        #image_writer_threads=4,
     )
     dataset.start_image_writer(num_threads=4)
 else:
     print("Creating a new dataset.")
     dataset = LeRobotDataset.create(
         repo_id=REPO_ID,
+        root=local_dataset_path,
         fps=FPS,
         features=dataset_features,
         robot_type=robot.name,
@@ -83,7 +86,7 @@ episode_idx = 0
 while episode_idx < NUM_EPISODES and not events["stop_recording"]:
     # Note: `dataset.meta.total_episodes` will automatically update
     # to the correct number if there is existing data.
-    log_say(f"Recording episode {dataset.meta.total_episodes + episode_idx} of {dataset.meta.total_episodes + NUM_EPISODES - 1}")
+    print(f"Recording episode {dataset.meta.total_episodes + episode_idx} of {dataset.meta.total_episodes + NUM_EPISODES - 1}")
 
     record_loop(
         robot=robot,
@@ -99,9 +102,18 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
     print('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
     print('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
 
+    user_choice = input("Save this episode? (y/n): ").lower()
+    if user_choice == 'y':
+        print("Saving episode...")
+        dataset.save_episode()
+        episode_idx += 1
+    else:
+        print("Discarding episode...")
+        dataset.clear_episode_buffer()
+
     # Reset the environment if not stopping or re-recording
     if not events["stop_recording"] and (episode_idx < NUM_EPISODES - 1 or events["rerecord_episode"]):
-        log_say("Reset the environment")
+        print("Reset the environment")
         record_loop(
             robot=robot,
             events=events,
@@ -114,17 +126,17 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
         )
 
     if events["rerecord_episode"]:
-        log_say("Re-recording episode")
+        print("Re-recording episode")
         events["rerecord_episode"] = False
         events["exit_early"] = False
         dataset.clear_episode_buffer()
         continue
 
-    dataset.save_episode()
-    episode_idx += 1
+    
 
 # Clean up
-log_say("Stop recording")
+print("Stop recording")
 robot.disconnect()
 teleop.disconnect()
-dataset.push_to_hub()
+# If you want to upload recored dataset to Hugging Face Hub,  
+#dataset.push_to_hub()
