@@ -13,12 +13,12 @@ from lerobot.utils.utils import log_say
 from lerobot.utils.visualization_utils import _init_rerun
 from lerobot.record import record_loop
 
-NUM_EPISODES = 1
+NUM_EPISODES = 20
 FPS = 60
 EPISODE_TIME_SEC = 10
-RESET_TIME_SEC = 10
-TASK_DESCRIPTION = "Pick up the red marker and put it in the box"
-REPO_ID = "nobana/zzinmak"
+RESET_TIME_SEC = 1
+TASK_DESCRIPTION = "Close the top blue drawer"
+REPO_ID = "nobana/close_and_open"
 local_dataset_path = os.path.join(os.path.expanduser("~/lerobotbi/lerobot/src/lerobot"), REPO_ID)
 
 # Create the robot and teleoperator configurations
